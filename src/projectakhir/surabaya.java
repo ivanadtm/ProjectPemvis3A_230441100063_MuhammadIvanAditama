@@ -1,0 +1,1403 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package projectakhir;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import projectakhir.login.Session;
+
+/**
+ *
+ * @author Ivan Aditama
+ */
+public class surabaya extends javax.swing.JFrame {
+
+    Connection conn;
+    detail d = new detail();
+    kotaa k = new kotaa();
+    int panel = 1;
+    /**
+     * Creates new form surabaya
+     */
+    public surabaya() {
+        initComponents();
+        conn = koneksi.getConnection();
+    }
+    
+    private void tambahJudul(){
+        String nama = txtNama.getText();
+        try {
+            String sql = "SELECT id_makanan, nama_makanan, gambar FROM makanan WHERE nama_makanan = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nama);
+            ResultSet rs = ps.executeQuery();
+
+            if (nama.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nama Tidak Boleh Kosong!!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (rs.next()) {
+                    System.out.println(Session.getUserId());
+                    byte[] gambarBytes = rs.getBytes("gambar");
+                    int idMakanan = rs.getInt("id_makanan");
+
+                    // Daftar panel dan label yang akan diperiksa
+                    JLabel[] gambarLabels = {gambar13, gambar14, gambar15, gambar16, gambar17};
+                    JLabel[] textFields = {txtJudul13, txtJudul14, txtJudul15, txtJudul16, txtJudul17};
+
+                    boolean dataDitambahkan = false; // Flag untuk mengetahui apakah data sudah ditambahkan
+
+                    // Iterasi melalui semua label dan text field
+                    for (int i = 0; i < gambarLabels.length; i++) {
+                        if (textFields[i].getText().isEmpty() && gambarLabels[i].getIcon() == null) {
+                            textFields[i].setText(nama); // Set nama makanan ke text field
+                            if (gambarBytes != null) {
+                                // Konversi byte array ke ImageIcon
+                                ImageIcon imageIcon = new ImageIcon(gambarBytes);
+                                gambarLabels[i].setIcon(imageIcon);
+                            } else {
+                                gambarLabels[i].setText("Gambar tidak tersedia.");
+                            }
+                            dataDitambahkan = true; // Data berhasil ditambahkan
+                            break; // Keluar dari loop setelah data ditambahkan
+                        }
+                    }
+                    
+                    try {
+                        String sqls = "INSERT INTO user_makanan (id_user, id_makanan, nama_makanan, gambar) VALUES (?, ?, ?, ?)";
+                        PreparedStatement pst = conn.prepareStatement(sqls);
+                        pst.setInt(1, Session.getUserId()); // ID user dari sesi login
+                        pst.setInt(2, idMakanan); // Nama makanan
+                        pst.setString(3, nama); // Nama makanan
+                        if (gambarBytes != null) {
+                            pst.setBytes(4, gambarBytes); // Gambar makanan
+                        } else {
+                            pst.setNull(4, java.sql.Types.BLOB); // Jika tidak ada gambar
+                        }
+
+                        pst.executeUpdate(); // Jalankan query
+                        System.out.println("Data berhasil ditambahkan ke database.");
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(this, "Gagal menyimpan data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        e.printStackTrace();
+                    }
+
+                    // Jika tidak ada panel kosong
+                    if (!dataDitambahkan) {
+                        JOptionPane.showMessageDialog(this, "Semua panel sudah terisi!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Data tidak ditemukan!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        tabbedPaneCustom1 = new raven.tabbed.TabbedPaneCustom();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        detail1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        gambar1 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        txtJudul1 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        detail2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        gambar2 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        txtJudul2 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        detail3 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        gambar3 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        txtJudul3 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        detail4 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        gambar4 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        txtJudul4 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        detail5 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        gambar5 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        txtJudul5 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        detail6 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        gambar6 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        txtJudul6 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel30 = new javax.swing.JPanel();
+        txtJudul7 = new javax.swing.JLabel();
+        gambar7 = new javax.swing.JLabel();
+        jPanel36 = new javax.swing.JPanel();
+        rating1 = new javax.swing.JLabel();
+        jPanel28 = new javax.swing.JPanel();
+        gambar8 = new javax.swing.JLabel();
+        jPanel31 = new javax.swing.JPanel();
+        txtJudul8 = new javax.swing.JLabel();
+        jPanel43 = new javax.swing.JPanel();
+        rating2 = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        gambar9 = new javax.swing.JLabel();
+        jPanel32 = new javax.swing.JPanel();
+        txtJudul9 = new javax.swing.JLabel();
+        jPanel44 = new javax.swing.JPanel();
+        rating3 = new javax.swing.JLabel();
+        jPanel26 = new javax.swing.JPanel();
+        gambar10 = new javax.swing.JLabel();
+        jPanel33 = new javax.swing.JPanel();
+        txtJudul10 = new javax.swing.JLabel();
+        jPanel45 = new javax.swing.JPanel();
+        rating4 = new javax.swing.JLabel();
+        jPanel27 = new javax.swing.JPanel();
+        gambar11 = new javax.swing.JLabel();
+        jPanel34 = new javax.swing.JPanel();
+        txtJudul11 = new javax.swing.JLabel();
+        jPanel46 = new javax.swing.JPanel();
+        rating5 = new javax.swing.JLabel();
+        jPanel29 = new javax.swing.JPanel();
+        gambar12 = new javax.swing.JLabel();
+        jPanel35 = new javax.swing.JPanel();
+        txtJudul12 = new javax.swing.JLabel();
+        jPanel47 = new javax.swing.JPanel();
+        rating6 = new javax.swing.JLabel();
+        jPanel41 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        panel1 = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        txtJudul13 = new javax.swing.JLabel();
+        gambar13 = new javax.swing.JLabel();
+        detail7 = new javax.swing.JButton();
+        panel2 = new javax.swing.JPanel();
+        jPanel21 = new javax.swing.JPanel();
+        txtJudul14 = new javax.swing.JLabel();
+        gambar14 = new javax.swing.JLabel();
+        detail8 = new javax.swing.JButton();
+        panel3 = new javax.swing.JPanel();
+        jPanel22 = new javax.swing.JPanel();
+        txtJudul15 = new javax.swing.JLabel();
+        gambar15 = new javax.swing.JLabel();
+        detail9 = new javax.swing.JButton();
+        panel4 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        txtJudul16 = new javax.swing.JLabel();
+        gambar16 = new javax.swing.JLabel();
+        detail10 = new javax.swing.JButton();
+        panel5 = new javax.swing.JPanel();
+        jPanel40 = new javax.swing.JPanel();
+        txtJudul17 = new javax.swing.JLabel();
+        gambar17 = new javax.swing.JLabel();
+        detail11 = new javax.swing.JButton();
+        jPanel37 = new javax.swing.JPanel();
+        jPanel38 = new javax.swing.JPanel();
+        jPanel39 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtNama = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jPanel42 = new javax.swing.JPanel();
+        jButton9 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new java.awt.GridLayout(2, 3, 30, 30));
+
+        jPanel5.setBackground(new java.awt.Color(102, 204, 0));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        detail1.setText("Detail");
+        detail1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(detail1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jButton2.setText("Tambahkan Rating");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanel5.add(gambar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel13.setBackground(new java.awt.Color(102, 204, 0));
+
+        txtJudul1.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel13.add(txtJudul1);
+
+        jPanel5.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        jPanel4.add(jPanel5);
+
+        jPanel6.setBackground(new java.awt.Color(204, 255, 51));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        detail2.setText("Detail");
+        detail2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail2ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(detail2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jButton4.setText("Tambahkan Rating");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanel6.add(gambar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel14.setBackground(new java.awt.Color(204, 255, 51));
+
+        txtJudul2.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel14.add(txtJudul2);
+
+        jPanel6.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        jPanel4.add(jPanel6);
+
+        jPanel7.setBackground(new java.awt.Color(102, 204, 0));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        detail3.setText("Detail");
+        detail3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail3ActionPerformed(evt);
+            }
+        });
+        jPanel7.add(detail3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jButton6.setText("Tambahkan Rating");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel7.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanel7.add(gambar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel15.setBackground(new java.awt.Color(102, 204, 0));
+
+        txtJudul3.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel15.add(txtJudul3);
+
+        jPanel7.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        jPanel4.add(jPanel7);
+
+        jPanel9.setBackground(new java.awt.Color(204, 255, 51));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        detail4.setText("Detail");
+        detail4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail4ActionPerformed(evt);
+            }
+        });
+        jPanel9.add(detail4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jButton8.setText("Tambahkan Rating");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanel9.add(gambar4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel16.setBackground(new java.awt.Color(204, 255, 51));
+
+        txtJudul4.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel16.add(txtJudul4);
+
+        jPanel9.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        jPanel4.add(jPanel9);
+
+        jPanel8.setBackground(new java.awt.Color(102, 204, 0));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        detail5.setText("Detail");
+        detail5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail5ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(detail5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jButton10.setText("Tambahkan Rating");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanel8.add(gambar5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel17.setBackground(new java.awt.Color(102, 204, 0));
+
+        txtJudul5.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel17.add(txtJudul5);
+
+        jPanel8.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        jPanel4.add(jPanel8);
+
+        jPanel10.setBackground(new java.awt.Color(204, 255, 51));
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        detail6.setText("Detail");
+        detail6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail6ActionPerformed(evt);
+            }
+        });
+        jPanel10.add(detail6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jButton12.setText("Tambahkan Rating");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        jPanel10.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanel10.add(gambar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel18.setBackground(new java.awt.Color(204, 255, 51));
+
+        txtJudul6.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel18.add(txtJudul6);
+
+        jPanel10.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        jPanel4.add(jPanel10);
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 450));
+
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton5.setText("KEMBALI");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(jButton5)
+                .addContainerGap(281, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addContainerGap())
+        );
+
+        jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 640, 40));
+
+        tabbedPaneCustom1.addTab("LIST MAKANAN", jPanel1);
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel25.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel25.setLayout(new java.awt.GridLayout(2, 3, 30, 30));
+
+        jPanel12.setBackground(new java.awt.Color(204, 0, 204));
+        jPanel12.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel30.setBackground(new java.awt.Color(204, 0, 204));
+
+        txtJudul7.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel30.add(txtJudul7);
+
+        jPanel12.add(jPanel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        jPanel12.add(gambar7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        rating1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rating1.setText("Rating");
+        jPanel36.add(rating1);
+
+        jPanel12.add(jPanel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 200, 30));
+
+        jPanel25.add(jPanel12);
+
+        jPanel28.setBackground(new java.awt.Color(0, 51, 153));
+        jPanel28.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel28.add(gambar8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel31.setBackground(new java.awt.Color(0, 51, 153));
+
+        txtJudul8.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        txtJudul8.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel31.add(txtJudul8);
+
+        jPanel28.add(jPanel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        rating2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rating2.setText("Rating");
+        jPanel43.add(rating2);
+
+        jPanel28.add(jPanel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 200, 30));
+
+        jPanel25.add(jPanel28);
+
+        jPanel24.setBackground(new java.awt.Color(204, 0, 204));
+        jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel24.add(gambar9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel32.setBackground(new java.awt.Color(204, 0, 204));
+
+        txtJudul9.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        txtJudul9.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel32.add(txtJudul9);
+
+        jPanel24.add(jPanel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        rating3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rating3.setText("Rating");
+        jPanel44.add(rating3);
+
+        jPanel24.add(jPanel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 200, 30));
+
+        jPanel25.add(jPanel24);
+
+        jPanel26.setBackground(new java.awt.Color(0, 51, 153));
+        jPanel26.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel26.add(gambar10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel33.setBackground(new java.awt.Color(0, 51, 153));
+
+        txtJudul10.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        txtJudul10.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel33.add(txtJudul10);
+
+        jPanel26.add(jPanel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        rating4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rating4.setText("Rating");
+        jPanel45.add(rating4);
+
+        jPanel26.add(jPanel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 200, 30));
+
+        jPanel25.add(jPanel26);
+
+        jPanel27.setBackground(new java.awt.Color(204, 0, 204));
+        jPanel27.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel27.add(gambar11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel34.setBackground(new java.awt.Color(204, 0, 204));
+
+        txtJudul11.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        txtJudul11.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel34.add(txtJudul11);
+
+        jPanel27.add(jPanel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        rating5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rating5.setText("Rating");
+        jPanel46.add(rating5);
+
+        jPanel27.add(jPanel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 200, 30));
+
+        jPanel25.add(jPanel27);
+
+        jPanel29.setBackground(new java.awt.Color(0, 51, 153));
+        jPanel29.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel29.add(gambar12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        jPanel35.setBackground(new java.awt.Color(0, 51, 153));
+
+        txtJudul12.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        txtJudul12.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel35.add(txtJudul12);
+
+        jPanel29.add(jPanel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+
+        rating6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rating6.setText("Rating");
+        jPanel47.add(rating6);
+
+        jPanel29.add(jPanel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 200, 30));
+
+        jPanel25.add(jPanel29);
+
+        jPanel2.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 450));
+
+        jPanel41.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton7.setText("KEMBALI");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel41Layout = new javax.swing.GroupLayout(jPanel41);
+        jPanel41.setLayout(jPanel41Layout);
+        jPanel41Layout.setHorizontalGroup(
+            jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel41Layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(jButton7)
+                .addContainerGap(281, Short.MAX_VALUE))
+        );
+        jPanel41Layout.setVerticalGroup(
+            jPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel41Layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(jButton7)
+                .addContainerGap())
+        );
+
+        jPanel2.add(jPanel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 640, 40));
+
+        tabbedPaneCustom1.addTab("BEST SELLER", jPanel2);
+
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel19.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel19.setLayout(new java.awt.GridLayout(2, 3, 30, 30));
+
+        panel1.setBackground(new java.awt.Color(204, 102, 0));
+        panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel20.setBackground(new java.awt.Color(204, 102, 0));
+
+        txtJudul13.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel20.add(txtJudul13);
+
+        panel1.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        panel1.add(gambar13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        detail7.setText("Detail");
+        detail7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail7ActionPerformed(evt);
+            }
+        });
+        panel1.add(detail7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jPanel19.add(panel1);
+
+        panel2.setBackground(new java.awt.Color(102, 102, 0));
+        panel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel21.setBackground(new java.awt.Color(102, 102, 0));
+
+        txtJudul14.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel21.add(txtJudul14);
+
+        panel2.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        panel2.add(gambar14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        detail8.setText("Detail");
+        detail8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail8ActionPerformed(evt);
+            }
+        });
+        panel2.add(detail8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jPanel19.add(panel2);
+
+        panel3.setBackground(new java.awt.Color(204, 102, 0));
+        panel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel22.setBackground(new java.awt.Color(204, 102, 0));
+
+        txtJudul15.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel22.add(txtJudul15);
+
+        panel3.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        panel3.add(gambar15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        detail9.setText("Detail");
+        detail9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail9ActionPerformed(evt);
+            }
+        });
+        panel3.add(detail9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jPanel19.add(panel3);
+
+        panel4.setBackground(new java.awt.Color(102, 102, 0));
+        panel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel23.setBackground(new java.awt.Color(102, 102, 0));
+
+        txtJudul16.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel23.add(txtJudul16);
+
+        panel4.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        panel4.add(gambar16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        detail10.setText("Detail");
+        detail10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail10ActionPerformed(evt);
+            }
+        });
+        panel4.add(detail10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jPanel19.add(panel4);
+
+        panel5.setBackground(new java.awt.Color(204, 102, 0));
+        panel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel40.setBackground(new java.awt.Color(204, 102, 0));
+
+        txtJudul17.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
+        jPanel40.add(txtJudul17);
+
+        panel5.add(jPanel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        panel5.add(gambar17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 120, 80));
+
+        detail11.setText("Detail");
+        detail11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detail11ActionPerformed(evt);
+            }
+        });
+        panel5.add(detail11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
+
+        jPanel19.add(panel5);
+
+        jPanel37.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel37.setLayout(new java.awt.GridLayout(3, 1, 0, 10));
+
+        jPanel38.setLayout(new java.awt.GridLayout(2, 1));
+
+        jPanel39.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setText("Masukkan Nama Makanan :");
+        jPanel39.add(jLabel1);
+
+        jPanel38.add(jPanel39);
+
+        txtNama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNamaActionPerformed(evt);
+            }
+        });
+        jPanel38.add(txtNama);
+
+        jPanel37.add(jPanel38);
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setText("TAMBAH");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel37.add(jButton1);
+
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setText("HAPUS");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel37.add(jButton3);
+
+        jPanel19.add(jPanel37);
+
+        jPanel3.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 637, 450));
+
+        jPanel42.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton9.setText("KEMBALI");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
+        jPanel42.setLayout(jPanel42Layout);
+        jPanel42Layout.setHorizontalGroup(
+            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel42Layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(jButton9)
+                .addContainerGap(281, Short.MAX_VALUE))
+        );
+        jPanel42Layout.setVerticalGroup(
+            jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel42Layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(jButton9)
+                .addContainerGap())
+        );
+
+        jPanel3.add(jPanel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 640, 40));
+
+        tabbedPaneCustom1.addTab("WISHLIST", jPanel3);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tabbedPaneCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tabbedPaneCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void detail1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, txtJudul1.getText()); // Set ID makanan
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                String judul = rs.getString("nama_makanan");
+                String deskripsi = rs.getString("deskripsi");
+                d.txtDetail.setText(deskripsi);
+                d.txtJudulDetail.setText("DETAIL" + " " + judul);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+        d.setVisible(true);
+    }//GEN-LAST:event_detail1ActionPerformed
+
+    private void detail2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail2ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, txtJudul2.getText()); // Set ID makanan
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                String judul = rs.getString("nama_makanan");
+                String deskripsi = rs.getString("deskripsi");
+                d.txtDetail.setText(deskripsi);
+                d.txtJudulDetail.setText("DETAIL" + " " + judul);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+        d.setVisible(true);
+    }//GEN-LAST:event_detail2ActionPerformed
+
+    private void detail3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail3ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, txtJudul3.getText()); // Set ID makanan
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                String judul = rs.getString("nama_makanan");
+                String deskripsi = rs.getString("deskripsi");
+                d.txtDetail.setText(deskripsi);
+                d.txtJudulDetail.setText("DETAIL" + " " + judul);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+        d.setVisible(true);
+
+    }//GEN-LAST:event_detail3ActionPerformed
+
+    private void detail4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail4ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, txtJudul4.getText()); // Set ID makanan
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                String judul = rs.getString("nama_makanan");
+                String deskripsi = rs.getString("deskripsi");
+                d.txtDetail.setText(deskripsi);
+                d.txtJudulDetail.setText("DETAIL" + " " + judul);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+        d.setVisible(true);
+    }//GEN-LAST:event_detail4ActionPerformed
+
+    private void detail5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail5ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, txtJudul5.getText()); // Set ID makanan
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                String judul = rs.getString("nama_makanan");
+                String deskripsi = rs.getString("deskripsi");
+                d.txtDetail.setText(deskripsi);
+                d.txtJudulDetail.setText("DETAIL" + " " + judul);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+        d.setVisible(true);
+    }//GEN-LAST:event_detail5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+//        String tabel = k.makanan.getText();
+        if(txtJudul1.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+        String rating = JOptionPane.showInputDialog(null, "Masukkan rating:", "Input Rating", JOptionPane.QUESTION_MESSAGE);
+            if (rating == null || rating.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Salah satu form masih kosong", "Peringatan", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    String sql = "UPDATE makanan SET rating = ? WHERE nama_makanan = ?";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ps.setString(1, rating);
+                    ps.setString(2, txtJudul1.getText());
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Data saved successfully");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // Untuk debugging
+                }
+            }
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNamaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+//        if(txtNama.getText().isEmpty()){
+//            JOptionPane.showMessageDialog(null, "Salah satu form masih kosong", "peringatan", JOptionPane.ERROR_MESSAGE);
+//        }else{
+//            try{
+//            String sql = "INSERT INTO karyawan (nama, jabatan, departemen) VALUES (?, ?, ?)";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setString(1, txtNama.getText());
+//            ps.setString(2, txtJabatan.getText());
+//            ps.setString(3, txtDepartemen.getText());
+//            ps.executeUpdate();
+//            JOptionPane.showMessageDialog(this, "Data saved successfully");
+//            loadDataKaryawan();
+//          } catch (SQLException e) {
+//            System.out.println("Error Save Data" + e.getMessage());
+//          }
+//        }
+        tambahJudul();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void detail6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail6ActionPerformed
+        // TODO add your handling code here:
+        try{
+            String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, txtJudul6.getText()); // Set ID makanan
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                String judul = rs.getString("nama_makanan");
+                String deskripsi = rs.getString("deskripsi");
+                d.txtDetail.setText(deskripsi);
+                d.txtJudulDetail.setText("DETAIL" + " " + judul);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+        d.setVisible(true);
+    }//GEN-LAST:event_detail6ActionPerformed
+
+    private void detail7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail7ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul13.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, txtJudul1.getText()); // Set ID makanan
+                ResultSet rs = ps.executeQuery();
+
+                if(rs.next()){
+                    String judul = rs.getString("nama_makanan");
+                    String deskripsi = rs.getString("deskripsi");
+                    d.txtDetail.setText(deskripsi);
+                    d.txtJudulDetail.setText("DETAIL" + " " + judul);
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+            d.setVisible(true);
+        }
+    }//GEN-LAST:event_detail7ActionPerformed
+
+    private void detail8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail8ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul14.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, txtJudul1.getText()); // Set ID makanan
+                ResultSet rs = ps.executeQuery();
+
+                if(rs.next()){
+                    String judul = rs.getString("nama_makanan");
+                    String deskripsi = rs.getString("deskripsi");
+                    d.txtDetail.setText(deskripsi);
+                    d.txtJudulDetail.setText("DETAIL" + " " + judul);
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+            d.setVisible(true);
+        }
+    }//GEN-LAST:event_detail8ActionPerformed
+
+    private void detail9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail9ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul15.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, txtJudul1.getText()); // Set ID makanan
+                ResultSet rs = ps.executeQuery();
+
+                if(rs.next()){
+                    String judul = rs.getString("nama_makanan");
+                    String deskripsi = rs.getString("deskripsi");
+                    d.txtDetail.setText(deskripsi);
+                    d.txtJudulDetail.setText("DETAIL" + " " + judul);
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+            d.setVisible(true);
+        }
+    }//GEN-LAST:event_detail9ActionPerformed
+
+    private void detail10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail10ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul16.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, txtJudul1.getText()); // Set ID makanan
+                ResultSet rs = ps.executeQuery();
+
+                if(rs.next()){
+                    String judul = rs.getString("nama_makanan");
+                    String deskripsi = rs.getString("deskripsi");
+                    d.txtDetail.setText(deskripsi);
+                    d.txtJudulDetail.setText("DETAIL" + " " + judul);
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+            d.setVisible(true);
+        }
+    }//GEN-LAST:event_detail10ActionPerformed
+
+    private void detail11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detail11ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul17.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                String sql = "SELECT nama_makanan, deskripsi FROM makanan WHERE nama_makanan = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, txtJudul1.getText()); // Set ID makanan
+                ResultSet rs = ps.executeQuery();
+
+                if(rs.next()){
+                    String judul = rs.getString("nama_makanan");
+                    String deskripsi = rs.getString("deskripsi");
+                    d.txtDetail.setText(deskripsi);
+                    d.txtJudulDetail.setText("DETAIL" + " " + judul);
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, "Error memuat data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            d.setDefaultCloseOperation(detail.DISPOSE_ON_CLOSE);
+            d.setVisible(true);
+        }
+    }//GEN-LAST:event_detail11ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        new kotaa().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        new kotaa().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        new kotaa().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul6.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+        String rating = JOptionPane.showInputDialog(null, "Masukkan rating:", "Input Rating", JOptionPane.QUESTION_MESSAGE);
+            if (rating == null || rating.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Salah satu form masih kosong", "Peringatan", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    String sql = "UPDATE makanan SET rating = ? WHERE nama_makanan = ?";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ps.setString(1, rating);
+                    ps.setString(2, txtJudul1.getText());
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Data saved successfully");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // Untuk debugging
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul5.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+        String rating = JOptionPane.showInputDialog(null, "Masukkan rating:", "Input Rating", JOptionPane.QUESTION_MESSAGE);
+            if (rating == null || rating.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Salah satu form masih kosong", "Peringatan", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    String sql = "UPDATE makanan SET rating = ? WHERE nama_makanan = ?";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ps.setString(1, rating);
+                    ps.setString(2, txtJudul1.getText());
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Data saved successfully");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // Untuk debugging
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul2.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+        String rating = JOptionPane.showInputDialog(null, "Masukkan rating:", "Input Rating", JOptionPane.QUESTION_MESSAGE);
+            if (rating == null || rating.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Salah satu form masih kosong", "Peringatan", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    String sql = "UPDATE makanan SET rating = ? WHERE nama_makanan = ?";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ps.setString(1, rating);
+                    ps.setString(2, txtJudul1.getText());
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Data saved successfully");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // Untuk debugging
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul3.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+        String rating = JOptionPane.showInputDialog(null, "Masukkan rating:", "Input Rating", JOptionPane.QUESTION_MESSAGE);
+            if (rating == null || rating.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Salah satu form masih kosong", "Peringatan", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    String sql = "UPDATE makanan SET rating = ? WHERE nama_makanan = ?";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ps.setString(1, rating);
+                    ps.setString(2, txtJudul1.getText());
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Data saved successfully");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // Untuk debugging
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        if(txtJudul4.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Tidak ada makanan ditabel ini", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+        String rating = JOptionPane.showInputDialog(null, "Masukkan rating:", "Input Rating", JOptionPane.QUESTION_MESSAGE);
+            if (rating == null || rating.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Salah satu form masih kosong", "Peringatan", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    String sql = "UPDATE makanan SET rating = ? WHERE nama_makanan = ?";
+                    PreparedStatement ps = conn.prepareStatement(sql);
+                    ps.setString(1, rating);
+                    ps.setString(2, txtJudul1.getText());
+                    ps.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Data saved successfully");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace(); // Untuk debugging
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(surabaya.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(surabaya.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(surabaya.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(surabaya.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new surabaya().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton detail1;
+    private javax.swing.JButton detail10;
+    private javax.swing.JButton detail11;
+    private javax.swing.JButton detail2;
+    private javax.swing.JButton detail3;
+    private javax.swing.JButton detail4;
+    private javax.swing.JButton detail5;
+    private javax.swing.JButton detail6;
+    private javax.swing.JButton detail7;
+    private javax.swing.JButton detail8;
+    private javax.swing.JButton detail9;
+    public javax.swing.JLabel gambar1;
+    public javax.swing.JLabel gambar10;
+    public javax.swing.JLabel gambar11;
+    public javax.swing.JLabel gambar12;
+    public javax.swing.JLabel gambar13;
+    public javax.swing.JLabel gambar14;
+    public javax.swing.JLabel gambar15;
+    public javax.swing.JLabel gambar16;
+    public javax.swing.JLabel gambar17;
+    public javax.swing.JLabel gambar2;
+    public javax.swing.JLabel gambar3;
+    public javax.swing.JLabel gambar4;
+    public javax.swing.JLabel gambar5;
+    public javax.swing.JLabel gambar6;
+    public javax.swing.JLabel gambar7;
+    public javax.swing.JLabel gambar8;
+    public javax.swing.JLabel gambar9;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
+    private javax.swing.JPanel jPanel46;
+    private javax.swing.JPanel jPanel47;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel panel1;
+    private javax.swing.JPanel panel2;
+    private javax.swing.JPanel panel3;
+    private javax.swing.JPanel panel4;
+    private javax.swing.JPanel panel5;
+    public javax.swing.JLabel rating1;
+    public javax.swing.JLabel rating2;
+    public javax.swing.JLabel rating3;
+    public javax.swing.JLabel rating4;
+    public javax.swing.JLabel rating5;
+    public javax.swing.JLabel rating6;
+    private raven.tabbed.TabbedPaneCustom tabbedPaneCustom1;
+    public javax.swing.JLabel txtJudul1;
+    public javax.swing.JLabel txtJudul10;
+    public javax.swing.JLabel txtJudul11;
+    public javax.swing.JLabel txtJudul12;
+    public javax.swing.JLabel txtJudul13;
+    public javax.swing.JLabel txtJudul14;
+    public javax.swing.JLabel txtJudul15;
+    public javax.swing.JLabel txtJudul16;
+    public javax.swing.JLabel txtJudul17;
+    public javax.swing.JLabel txtJudul2;
+    public javax.swing.JLabel txtJudul3;
+    public javax.swing.JLabel txtJudul4;
+    public javax.swing.JLabel txtJudul5;
+    public javax.swing.JLabel txtJudul6;
+    public javax.swing.JLabel txtJudul7;
+    public javax.swing.JLabel txtJudul8;
+    public javax.swing.JLabel txtJudul9;
+    private javax.swing.JTextField txtNama;
+    // End of variables declaration//GEN-END:variables
+}
